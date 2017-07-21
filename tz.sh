@@ -67,10 +67,21 @@ Download_Server_Status_server(){
 		mv ServerStatus-master/* "${file}"
 		rm -rf ServerStatus-master
 	fi
-	[[ ! -e "${server_file}" ]] && echo -e "${Error} ServerStatus 服务端文件夹重命名失败 !" && rm -rf ServerStatus-Toyo-master && exit 1
+	[[ ! -e "${server_file}" ]] && echo -e "${Error} ServerStatus 服务端文件夹重命名失败 !" && rm -rf ServerStatus-master && exit 1
 	cd "${server_file}"
 	make
 	[[ ! -e "sergate" ]] && echo -e "${Error} ServerStatus 服务端安装失败 !" && exit 1
+}
+Download_Server_Status_client(){
+	mkdir /usr/local/ServerStatus/
+	cd "/usr/local/ServerStatus"
+	if [[ ${release} = "centos" ]]; then
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/FeulerLoup/ServerStatus/master/clients/client-linux.py" -O /usr/local/ServerStatus/status-client.py
+	else
+		wget -N --no-check-certificate "https://raw.githubusercontent.com/FeulerLoup/ServerStatus/master/clients/client-psutil.py" -O /usr/local/ServerStatus/status-client.py
+	fi
+	[[ ! -e "status-client.py" ]] && echo -e "${Error} ServerStatus 客户下载失败 !" && exit 1
+	chmod +x /usr/local/ServerStatus/status-client.py
 }
 Service_Server_Status_server(){
 	if [[ ${release} = "centos" ]]; then
@@ -766,7 +777,6 @@ Update_Shell(){
 }
 menu_client(){
 echo && echo -e "  ServerStatus 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- Toyo | doub.io/shell-jc3 --
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ————————————
@@ -832,7 +842,7 @@ esac
 }
 menu_server(){
 echo && echo -e "  ServerStatus 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- Toyo | doub.io/shell-jc3 --
+
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ————————————
