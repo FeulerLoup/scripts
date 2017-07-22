@@ -150,6 +150,9 @@ Installation_dependency(){
 			if [[ -z ${python_status} ]]; then
 				apt-get update
 				apt-get install -y python
+				apt-get install -y python-dev
+				apt-get install -y python-pip
+				pip install psutil
 			fi
 		fi
 	fi
