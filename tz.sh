@@ -152,6 +152,7 @@ Installation_dependency(){
 				apt-get install -y python
 				apt-get install -y python-dev
 				apt-get install -y python-pip
+				apt-get build-dep python-psutil
 				pip install psutil
 			fi
 		fi
